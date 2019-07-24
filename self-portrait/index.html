@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Self Portrait</title>
+    <style>
+    #container {
+        margin: 0px auto;
+        width:600px;
+        height:600px;
+    }
+
+    #vidEl {
+        width: 100%;
+        height: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <video id="vidEl" autoplay="true"></video>
+    </div>
+    <button onClick="toggleVid()">Toggle Video</button>
+    <script>
+    let vid = document.querySelector("#vidEl");
+    let vidState = true;
+
+    function toggleVid(){
+        switch(vidState){
+            case true:
+                start();
+                vidState=false;
+                break;
+            case false:
+                pause();
+                vidState=true;
+                break;
+        }
+        // if (vidState==false){
+        //     start();
+        // }
+        // if (vidState==true){
+        //     stop(e);
+        // }
+    }
+
+    function start(){
+        if(navigator.mediaDevices.getUserMedia){
+            navigator.mediaDevices.getUserMedia({video: true})
+            .then(function(stream){
+                vid.srcObject=stream;              
+            })
+            .catch(function(err){
+                console.log("somethings wrong");
+            });
+        }
+    }
+
+    function pause(){
+        vid.pause();
+        
+    }
+    </script>
+</body>
+</html>
