@@ -1,17 +1,49 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Chat</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    </head>
-    <body>
-        Hello, world!
-        <script src="scripts/chat.js"></script>
-    <script>
-          var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-          console.log(data);
-          socket.emit('my other event', { my: 'data' });
-        });
-    </script>
-    </body>
+<head>
+    <title>chat</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+		<link rel="stylesheet" href="style.css">
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="nine columns">
+				<div id="msg-container">
+					<ul id="messages"></ul>
+				</div>
+				<div class="form-container">
+					<form action="">
+					<input id="m" autocomplete="off" /><button>Send</button>
+					</form>
+				</div>
+			</div>
+			<div class="three columns">
+				<ul id="client-list"></ul>
+			</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+		
+		<script>
+		$(function() {
+			var socket = io();
+
+			socket.on('client join', function(client){
+				$('#client-list').append($('<li>').text(client));
+			})
+
+			$('form').submit(function(e){
+				e.preventDefault();
+				socket.emit('chat message', $('#m').val());
+				$('#m').val('');
+				return false;
+			});		
+			
+			socket.on('chat message', function(msg){
+				$('#messages').append($('<li>').text(msg));
+				$("#msg-container").animate({ scrollTop: 20000000 }, "slow");
+			});
+		});
+		</script>
+	</body>
 </html>

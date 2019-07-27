@@ -1,4 +1,5 @@
-const app = require('express')(),
+const express = require('express'),
+      app = express(),
       http = require('http').createServer(app),
       io = require('socket.io')(http),
       uuid = require('uuid');
@@ -7,8 +8,9 @@ const PORT = 8080;
 
 let clients = [];
 
+app.use(express.static('public'));
 app.get('/', (req,res)=>{
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + 'index.html');
 });
 
 io.on('connection', (socket)=>{
@@ -18,10 +20,12 @@ io.on('connection', (socket)=>{
     client.id = socket.id;
     client.nick = "Anon";
     clients.push(client);
-    console.log(clients);
+    // console.log(clients[0])
+    console.log(`${clients.forEach(function(c){return c.nick})}`);
     io.emit('chat message', `${client.nick} has joined.`)
-    // client();
     
+    io.emit('client join', `${clients.forEach(function(c){return c.nick})}`)
+
     socket.on('chat message', (msg)=>{
         console.log('message: ' + msg);
         if(msg.slice(0,4)==="nick"){

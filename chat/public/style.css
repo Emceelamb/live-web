@@ -1,0 +1,34 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font: 13px Helvetica, Arial;
+}
+form {
+    padding: 3px;
+    /* width: 100%; */
+}
+form input {
+    border: 0;
+    padding: 10px;
+    width: 85%;
+    margin-right: 0.5%;
+    border: 0.5px solid #bbb;
+}
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#messages li {
+    padding: 5px 10px;
+}
+#messages li:nth-child(odd) {
+    background: #eee;
+}
+#msg-container{
+    height:500px;
+    overflow:scroll;
+}
