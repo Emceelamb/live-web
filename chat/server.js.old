@@ -1,0 +1,30 @@
+const express = require('express'),
+      app = express(),
+      server = require('http').Server(app),
+      io = require('socket.io')(server);
+
+const PORT = process.env.PORT || 8080;
+
+
+//app.use(express.static('public'));
+
+app.use('/', (req, res)=>{
+    res.send('index');
+    console.log('someone has joined')
+});
+
+io.on("connection", (socket)=>{
+   console.log(`Socket connected with id: ${socket.id}.`)
+   socket.emit('news', {hello: 'world'});
+   socket.on('my other eventt', (data)=>{
+       console.log(data);
+   });
+});
+
+server.listen(PORT, ()=>{
+    console.log(`Server is open on port ${PORT}.`);
+});
+
+
+
+
