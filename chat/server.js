@@ -21,10 +21,15 @@ io.on('connection', (socket)=>{
     client.nick = "Anon";
     clients.push(client);
     // console.log(clients[0])
-    console.log(`${clients.forEach(function(c){return c.nick})}`);
+    // console.log(`${clients.forEach(function(c){return c.nick})}`);
+    
+  
     io.emit('chat message', `${client.nick} has joined.`)
     
-    io.emit('client join', `${clients.forEach(function(c){return c.nick})}`)
+    clients.forEach(function(c){
+        io.emit('client join', c.nick)
+    })
+    // io.emit('client join', `${clients.forEach(function(c){return c.nick})}`)
 
     socket.on('chat message', (msg)=>{
         console.log('message: ' + msg);
@@ -44,6 +49,8 @@ io.on('connection', (socket)=>{
             clients.splice(cli,1);
         }
         console.log(clients);
+        
+
     });
 });
 
